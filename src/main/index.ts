@@ -9,6 +9,9 @@ function createWindow(): void {
     width: 900,
     height: 670,
     show: false,
+    center: true,
+    title: 'Dictionary',
+    trafficLightPosition: {x: 15, y: 10},
     autoHideMenuBar: true,
     ...(process.platform === 'linux' ? { icon } : {}),
     webPreferences: {
