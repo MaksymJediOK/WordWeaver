@@ -1,8 +1,11 @@
 import { ElectronAPI } from '@electron-toolkit/preload'
+import { BaseWord } from '../shared/types'
 
 declare global {
   interface Window {
     electron: ElectronAPI
-    api: unknown
+    api: {
+      getWords():Promise<BaseWord[] | null>
+    }
   }
 }
