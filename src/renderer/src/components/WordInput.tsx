@@ -1,13 +1,24 @@
 import React, { useState } from 'react'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
+import { useToast } from './hooks/use-toast'
 
 export const WordInput = () => {
   const [inputValue, setInputValue] = useState('')
+  const { toast } = useToast()
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     console.log('Submitted:', inputValue)
+    try {
+      await window.api.addWord(inputValue)
+    } catch (err) {
+      console.error(err)
+    } finally {
+      toast({
+        title: 'Word was successfully added'
+      })
+    }
   }
 
   return (
@@ -22,14 +33,14 @@ export const WordInput = () => {
           <form onSubmit={handleSubmit} className="w-full max-w-sm space-y-2">
             <div className="flex flex-col sm:flex-row gap-2">
               <Input
-                type="email"
+                type="text"
                 placeholder="Enter your email"
                 value={inputValue}
                 onChange={(e) => setInputValue(e.target.value)}
                 className="flex-grow"
               />
               <Button type="submit" className="w-full sm:w-auto">
-                Subscribe
+                Add
               </Button>
             </div>
           </form>

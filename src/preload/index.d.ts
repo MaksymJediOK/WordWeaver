@@ -6,6 +6,7 @@ declare global {
     electron: ElectronAPI
     api: {
       getWords():Promise<BaseWord[] | null>
+      addWord(word: string): Promise<void>
     }
   }
 }

@@ -46,6 +46,7 @@ import {
 import { useState } from 'react'
 import { WordInput } from './WordInput'
 import { TranslationTable } from './TranslationTable'
+import { Toaster } from './ui/toaster'
 
 const data = {
   user: {
@@ -193,6 +194,7 @@ export const MainWindow = () => {
           {currentPage === 'table' && <TranslationTable />}
         </div>
       </SidebarInset>
+      <Toaster />
     </SidebarProvider>
   )
 }

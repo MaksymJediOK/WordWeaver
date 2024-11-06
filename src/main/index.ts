@@ -2,7 +2,7 @@ import { app, shell, BrowserWindow, ipcMain, globalShortcut, clipboard } from 'e
 import { join } from 'path'
 import { electronApp, optimizer, is } from '@electron-toolkit/utils'
 import icon from '../../resources/icon.png?asset'
-import { getWords, addWordViaClipBoard } from './lib'
+import { getWords, addWordViaString } from './lib'
 
 function createWindow(): void {
   // Create the browser window.
@@ -44,11 +44,12 @@ app.whenReady().then(() => {
   app.on('browser-window-created', (_, window) => {
     optimizer.watchWindowShortcuts(window)
   })
-  globalShortcut.register('Alt+C', () => {
+  globalShortcut.register('Control+Q', () => {
     const text = clipboard.readText()
-    addWordViaClipBoard(text)
+    addWordViaString(text)
   })
   ipcMain.handle('get-words', () => getWords())
+  ipcMain.handle('add-word', (_, word: string) => addWordViaString(word))
 
   createWindow()
 
