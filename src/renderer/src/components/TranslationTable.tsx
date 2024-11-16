@@ -7,16 +7,15 @@ import { BaseWord } from '@shared/types'
 export const TranslationTable = () => {
   const [tableWords, setTableWords] = useState<BaseWord[]>([])
 
-  useEffect(() => {
-    async function getWordsFromDb() {
-      try {
-        const result = await window.api.getWords()
-        if (result) setTableWords(result)
-
-      } catch (err) {
-        console.error(err)
-      }
+  const getWordsFromDb = async () => {
+    try {
+      const result = await window.api.getWords()
+      if (result) setTableWords(result)
+    } catch (err) {
+      console.error(err)
     }
+  }
+  useEffect(() => {
     getWordsFromDb()
   }, [])
 
@@ -25,7 +24,6 @@ export const TranslationTable = () => {
       <Table>
         <TableHeader>
           <TableRow>
-            <TableHead className="w-[15px]">ID</TableHead>
             <TableHead className="w-[90px]">Original</TableHead>
             <TableHead className="w-[90px]">Translated</TableHead>
             <TableHead className="w-[400px]">Example</TableHead>
@@ -33,7 +31,7 @@ export const TranslationTable = () => {
         </TableHeader>
         <TableBody>
           {tableWords.length ? (
-            <TableCells words={tableWords} />
+            <TableCells words={tableWords} refresh={getWordsFromDb} />
           ) : (
             <TableRow>
               <TableCell className="font-medium"></TableCell>

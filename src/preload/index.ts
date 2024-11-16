@@ -3,7 +3,8 @@ import { electronAPI } from '@electron-toolkit/preload'
 
 const api = {
   getWords: (url: string) => ipcRenderer.invoke('get-words', url),
-  addWord: (word: string) => ipcRenderer.invoke('add-word', word)
+  addWord: (word: string) => ipcRenderer.invoke('add-word', word),
+  removeWord: (id: number) => ipcRenderer.invoke('remove-word', id)
 }
 
 if (process.contextIsolated) {

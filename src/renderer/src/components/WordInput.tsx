@@ -2,19 +2,23 @@ import React, { useState } from 'react'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { useToast } from './hooks/use-toast'
+import { Loader2 } from 'lucide-react'
 
 export const WordInput = () => {
   const [inputValue, setInputValue] = useState('')
+  const [isLoading, setIsLoading] = useState(false)
   const { toast } = useToast()
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     console.log('Submitted:', inputValue)
     try {
+      setIsLoading(true)
       await window.api.addWord(inputValue)
     } catch (err) {
       console.error(err)
     } finally {
+      setIsLoading(false)
       toast({
         title: 'Word was successfully added'
       })
@@ -39,8 +43,15 @@ export const WordInput = () => {
                 onChange={(e) => setInputValue(e.target.value)}
                 className="flex-grow"
               />
-              <Button type="submit" className="w-full sm:w-auto">
-                Add
+              <Button type="submit" disabled={isLoading} className="w-full">
+                {isLoading ? (
+                  <>
+                    <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                    Loading
+                  </>
+                ) : (
+                  'Add'
+                )}
               </Button>
             </div>
           </form>

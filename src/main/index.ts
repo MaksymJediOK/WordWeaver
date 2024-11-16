@@ -2,7 +2,7 @@ import { app, shell, BrowserWindow, ipcMain, globalShortcut, clipboard } from 'e
 import { join } from 'path'
 import { electronApp, optimizer, is } from '@electron-toolkit/utils'
 import icon from '../../resources/icon.png?asset'
-import { getWords, addWordViaString } from './lib'
+import { getWords, addWordViaString, removeWord } from './lib'
 
 function createWindow(): void {
   // Create the browser window.
@@ -25,11 +25,22 @@ function createWindow(): void {
     mainWindow.show()
   })
 
+  // mainWindow.on('minimize', () => {
+  //   mainWindow.hide()
+  // });
+
   mainWindow.webContents.setWindowOpenHandler((details) => {
     shell.openExternal(details.url)
     return { action: 'deny' }
   })
 
+  // mainWindow.on('close', (event) => {
+  //   if (!app.quit) {
+  //     event.preventDefault();
+  //     mainWindow.hide(); // Hide the window when the user tries to close
+  //   }
+  //   return false;
+  // });
   // HMR for renderer base on electron-vite cli.
   // Load the remote URL for development or the local html file for production.
   if (is.dev && process.env['ELECTRON_RENDERER_URL']) {
@@ -41,6 +52,15 @@ function createWindow(): void {
 
 app.whenReady().then(() => {
   electronApp.setAppUserModelId('com.electron')
+  // const icon = nativeImage.createFromPath('../../resources/icon.png?asset')
+  // tray = new Tray(icon)
+  //
+  // const contextMenu = Menu.buildFromTemplate([
+  //   { label: 'Item1', type: '' },
+  //   { label: 'Item2', type: 'radio' },
+  //
+  // ])
+
   app.on('browser-window-created', (_, window) => {
     optimizer.watchWindowShortcuts(window)
   })
@@ -50,6 +70,7 @@ app.whenReady().then(() => {
   })
   ipcMain.handle('get-words', () => getWords())
   ipcMain.handle('add-word', (_, word: string) => addWordViaString(word))
+  ipcMain.handle('remove-word', (_, id: number) => removeWord(id))
 
   createWindow()
 

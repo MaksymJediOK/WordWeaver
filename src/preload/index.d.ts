@@ -5,8 +5,9 @@ declare global {
   interface Window {
     electron: ElectronAPI
     api: {
-      getWords():Promise<BaseWord[] | null>
+      getWords(): Promise<BaseWord[] | null>
       addWord(word: string): Promise<void>
+      removeWord(id: number): Promise<void>
     }
   }
 }
