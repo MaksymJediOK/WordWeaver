@@ -1,9 +1,6 @@
 import * as React from 'react'
 import {
-  BookOpen,
   ChevronsUpDown,
-  Settings2,
-  SquareTerminal
 } from 'lucide-react'
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
 import { Collapsible, CollapsibleTrigger } from '@/components/ui/collapsible'
