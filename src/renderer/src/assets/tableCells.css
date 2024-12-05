@@ -1,0 +1,10 @@
+.row-cell {}
+
+.delete-btn {
+  display: none;
+}
+
+.row-cell:hover .delete-btn {
+  display: inline-block;
+  cursor: pointer;
+}

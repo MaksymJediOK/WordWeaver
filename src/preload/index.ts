@@ -1,10 +1,13 @@
 import { contextBridge, ipcRenderer } from 'electron'
 import { electronAPI } from '@electron-toolkit/preload'
+import { PaginationProps } from '../shared/types'
 
 const api = {
   getWords: (url: string) => ipcRenderer.invoke('get-words', url),
   addWord: (word: string) => ipcRenderer.invoke('add-word', word),
-  removeWord: (id: number) => ipcRenderer.invoke('remove-word', id)
+  removeWord: (id: number) => ipcRenderer.invoke('remove-word', id),
+  getByPage: ({ page, size }: PaginationProps) =>
+    ipcRenderer.invoke('get-by-page', page, size)
 }
 
 if (process.contextIsolated) {

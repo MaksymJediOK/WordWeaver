@@ -1,8 +1,7 @@
 import React from 'react'
+import '../assets/tableCells.css'
 import { TableCell, TableRow } from './ui/table'
-
 import { BaseWord } from '@shared/types'
-import { X } from 'lucide-react'
 import { Button } from './ui/button'
 
 export const TableCells = ({ words, refresh }: { words: BaseWord[]; refresh: () => any }) => {
@@ -12,7 +11,7 @@ export const TableCells = ({ words, refresh }: { words: BaseWord[]; refresh: () 
   }
   return words.map((word) => {
     return (
-      <TableRow key={word.id}>
+      <TableRow key={word.id} className="row-cell">
         <TableCell className="w-1/6">{word.originalWord}</TableCell>
         <TableCell className="w-1/6">{word.translatedWord}</TableCell>
         <TableCell className="max-w-[400px]">
@@ -23,10 +22,10 @@ export const TableCells = ({ words, refresh }: { words: BaseWord[]; refresh: () 
           <Button
             variant="outline"
             size="icon"
-            className="rounded-full shadow-sm"
+            className="rounded-full shadow-sm delete-btn"
             onClick={() => removeWord(word.id)}
           >
-            <X />
+            X
           </Button>
         </TableCell>
       </TableRow>

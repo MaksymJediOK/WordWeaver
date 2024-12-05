@@ -5,3 +5,13 @@ export type BaseWord = {
   example: string
   translatedExample: string
 }
+
+export type PaginationProps = {
+  page: number,
+  size: number
+}
+
+export type FetchState = {
+  words: BaseWord[]
+  count: number
+}
