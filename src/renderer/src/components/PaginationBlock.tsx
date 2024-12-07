@@ -15,34 +15,31 @@ type PaginationProps = {
 }
 
 const PaginationBlock = ({ activePage = 1, count, setPage }: PaginationProps) => {
-  console.log('count', count)
-//Todo add check for bounds exceed for prev buttons
+  const moveForward = () => {
+    if (activePage + 1 <= count) setPage(activePage + 1)
+  }
+  const moveBack = () => {
+    if (activePage - 1 >= 1) setPage(activePage - 1)
+  }
+
   return (
     <Pagination className="mt-8">
       <PaginationContent>
         <PaginationItem>
-          <PaginationPrevious href="#" onClick={() => setPage(activePage - 1)} />
+          <PaginationPrevious href="#" onClick={moveBack} />
         </PaginationItem>
-        <PaginationItem>
-          <PaginationLink href="#" onClick={() => setPage(activePage - 1)}>
-            {activePage - 1 <= 0 ? null : activePage - 1}
-          </PaginationLink>
-        </PaginationItem>
+        <PaginationItem></PaginationItem>
         <PaginationItem>
           <PaginationLink href="#" isActive>
             {activePage}
           </PaginationLink>
         </PaginationItem>
+        <PaginationItem></PaginationItem>
         <PaginationItem>
-          <PaginationLink href="#" onClick={() => setPage(activePage + 1)}>
-            {activePage + 1 >= count ? null : activePage + 1}
-          </PaginationLink>
+          <PaginationEllipsis onClick={() => setPage(count)} />
         </PaginationItem>
         <PaginationItem>
-          <PaginationEllipsis />
-        </PaginationItem>
-        <PaginationItem>
-          <PaginationNext href="#" onClick={() => setPage(activePage + 1)} />
+          <PaginationNext href="#" onClick={moveForward} />
         </PaginationItem>
       </PaginationContent>
     </Pagination>

@@ -14,7 +14,7 @@ export const TranslationTable = () => {
     try {
       const { data, totalCount } = await window.api.getByPage({ page, size })
       if (data) {
-        setTableWords({ words: data, count: totalCount / size })
+        setTableWords({ words: data, count: Math.ceil(totalCount / size) })
       }
       console.log('it worked')
     } catch (error) {
