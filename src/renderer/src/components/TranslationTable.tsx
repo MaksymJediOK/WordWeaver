@@ -10,13 +10,12 @@ export const TranslationTable = () => {
   const [tableWords, setTableWords] = useState<FetchState>({ words: [], count: 0 })
   const [currentPage, setCurrentPage] = useState(1)
 
-  const getWordsFromDb = async (page: number, size: number = 6) => {
+  const getWordsFromDb = async (page: number, size: number = 10) => {
     try {
       const { data, totalCount } = await window.api.getByPage({ page, size })
       if (data) {
         setTableWords({ words: data, count: Math.ceil(totalCount / size) })
       }
-      console.log('it worked')
     } catch (error) {
       console.error(error)
     }

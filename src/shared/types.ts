@@ -7,11 +7,27 @@ export type BaseWord = {
 }
 
 export type PaginationProps = {
-  page: number,
+  page: number
   size: number
 }
 
 export type FetchState = {
   words: BaseWord[]
   count: number
+}
+
+export type ExamplesApiResponse = {
+  examples: {
+    provider: {
+      id: number
+    }
+    year: number
+    rating: number
+    url: string
+    word: string
+    text: string
+    documentId: number
+    exampleId: number
+    title: string
+  }[]
 }

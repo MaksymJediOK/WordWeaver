@@ -4,7 +4,7 @@ import { PaginationProps } from '../shared/types'
 
 const api = {
   getWords: (url: string) => ipcRenderer.invoke('get-words', url),
-  addWord: (word: string) => ipcRenderer.invoke('add-word', word),
+  addWord: (word: string, context?: string) => ipcRenderer.invoke('add-word', word, context),
   removeWord: (id: number) => ipcRenderer.invoke('remove-word', id),
   getByPage: ({ page, size }: PaginationProps) =>
     ipcRenderer.invoke('get-by-page', page, size)

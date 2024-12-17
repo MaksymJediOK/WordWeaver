@@ -6,7 +6,7 @@ declare global {
     electron: ElectronAPI
     api: {
       getWords(): Promise<BaseWord[] | null>
-      addWord(word: string): Promise<void>
+      addWord(word: string, context?: string): Promise<void>
       removeWord(id: number): Promise<void>
       getByPage({ page, size }: PaginationProps): Promise<{ data: BaseWord[]; totalCount: number }>
     }

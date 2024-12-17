@@ -3,6 +3,7 @@ import '../assets/tableCells.css'
 import { TableCell, TableRow } from './ui/table'
 import { BaseWord } from '@shared/types'
 import { Button } from './ui/button'
+import { Separator } from './ui/separator'
 
 export const TableCells = ({ words, refresh }: { words: BaseWord[]; refresh: () => any }) => {
   const removeWord = async (id: number) => {
@@ -16,7 +17,8 @@ export const TableCells = ({ words, refresh }: { words: BaseWord[]; refresh: () 
         <TableCell className="w-1/6">{word.translatedWord}</TableCell>
         <TableCell className="max-w-[400px]">
           {word.example}
-          <br /> {word.translatedExample}
+          <Separator />
+          {word.translatedExample}
         </TableCell>
         <TableCell className="max-w-[50px]">
           <Button
