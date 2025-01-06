@@ -5,10 +5,10 @@ declare global {
   interface Window {
     electron: ElectronAPI
     api: {
-      getWords(): Promise<BaseWord[] | null>
       addWord(word: string, context?: string): Promise<void>
       removeWord(id: number): Promise<void>
       getByPage({ page, size }: PaginationProps): Promise<{ data: BaseWord[]; totalCount: number }>
+      createManually(data: Omit<BaseWord, 'id'>): Promise<void>
     }
   }
 }

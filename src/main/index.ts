@@ -2,7 +2,8 @@ import { app, shell, BrowserWindow, ipcMain, globalShortcut, clipboard } from 'e
 import { join } from 'path'
 import { electronApp, optimizer, is } from '@electron-toolkit/utils'
 import icon from '../../resources/icon.png?asset'
-import { getWords, addWordViaString, removeWord, getByPage } from './lib'
+import { addWordViaString, removeWord, getByPage, createManually } from './lib'
+import { BaseWord } from '@shared/types'
 
 function createWindow(): void {
   // Create the browser window.
@@ -68,10 +69,10 @@ app.whenReady().then(() => {
     const text = clipboard.readText()
     addWordViaString(text)
   })
-  ipcMain.handle('get-words', () => getWords())
   ipcMain.handle('add-word', (_, word: string, context?: string) => addWordViaString(word, context))
   ipcMain.handle('remove-word', (_, id: number) => removeWord(id))
   ipcMain.handle('get-by-page', (_, page: number, size: number) => getByPage({ page, size }))
+  ipcMain.handle('create-manually', (_, data: Omit<BaseWord, 'id'>) => createManually(data))
 
   createWindow()
 
