@@ -33,14 +33,13 @@ const AddWordTo = () => {
     try {
       setIsLoading(true)
       await window.api.addWord(wordInput, context)
-    } catch (err) {
-      console.error(err)
-    } finally {
       setIsLoading(false)
       toast({
         title: 'Word was successfully added'
       })
       form.reset()
+    } catch (err) {
+      console.error(err)
     }
   }
 

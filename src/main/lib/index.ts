@@ -44,7 +44,7 @@ const findExampleUsage = async (word: string, limit = 1) => {
 const getByPage = async ({
   page,
   size = 10
-}: PaginationProps): Promise<{ data: BaseWord[], totalCount: number }> => {
+}: PaginationProps): Promise<{ data: BaseWord[]; totalCount: number }> => {
   const skip = (page - 1) * size
   const take = size
 
@@ -65,4 +65,55 @@ const createManually = async (values: Omit<BaseWord, 'id'>) => {
   })
 }
 
-export { addWordViaString, removeWord, getByPage, createManually }
+const editOriginalWord = async (id: number, text: string) => {
+  return prisma.word.update({
+    where: {
+      id
+    },
+    data: {
+      originalWord: text
+    }
+  })
+}
+
+const editTranslatedWord = async (id: number, text: string) => {
+  return prisma.word.update({
+    where: {
+      id
+    },
+    data: {
+      translatedWord: text
+    }
+  })
+}
+const editExample = async (id: number, text: string) => {
+  return prisma.word.update({
+    where: {
+      id
+    },
+    data: {
+      example: text
+    }
+  })
+}
+const editTranslatedExample = async (id: number, text: string) => {
+  return prisma.word.update({
+    where: {
+      id
+    },
+    data: {
+      translatedExample: text
+    }
+  })
+}
+
+export {
+  addWordViaString,
+  removeWord,
+  getByPage,
+  createManually,
+  editOriginalWord,
+  editTranslatedWord,
+  editExample,
+  editTranslatedExample
+}

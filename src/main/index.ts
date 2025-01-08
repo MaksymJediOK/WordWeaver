@@ -2,8 +2,18 @@ import { app, shell, BrowserWindow, ipcMain, globalShortcut, clipboard } from 'e
 import { join } from 'path'
 import { electronApp, optimizer, is } from '@electron-toolkit/utils'
 import icon from '../../resources/icon.png?asset'
-import { addWordViaString, removeWord, getByPage, createManually } from './lib'
 import { BaseWord } from '@shared/types'
+import {
+  addWordViaString,
+  removeWord,
+  getByPage,
+  createManually,
+  editTranslatedWord,
+  editOriginalWord,
+  editExample,
+  editTranslatedExample
+} from './lib'
+
 
 function createWindow(): void {
   // Create the browser window.
@@ -73,6 +83,12 @@ app.whenReady().then(() => {
   ipcMain.handle('remove-word', (_, id: number) => removeWord(id))
   ipcMain.handle('get-by-page', (_, page: number, size: number) => getByPage({ page, size }))
   ipcMain.handle('create-manually', (_, data: Omit<BaseWord, 'id'>) => createManually(data))
+  ipcMain.handle('edit-word', (_, id: number, text: string) => editOriginalWord(id, text))
+  ipcMain.handle('edit-translated', (_, id: number, text: string) => editTranslatedWord(id, text))
+  ipcMain.handle('edit-example', (_, id: number, text: string) => editExample(id, text))
+  ipcMain.handle('edit-translated-example', (_, id: number, text: string) =>
+    editTranslatedExample(id, text)
+  )
 
   createWindow()
 

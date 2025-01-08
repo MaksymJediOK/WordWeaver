@@ -1,6 +1,6 @@
 import { Table, TableBody, TableHead, TableHeader, TableRow } from '@/components/ui/table'
 import { useEffect, useState } from 'react'
-import { TableCells } from './TableCells'
+import { TableRecord } from './TableRecord'
 import { TableCell } from './ui/table'
 import TableSkeleton from './TableSkeleton'
 import { PaginationBlock } from './PaginationBlock'
@@ -36,7 +36,9 @@ export const TranslationTable = () => {
         </TableHeader>
         <TableBody>
           {tableWords.words.length ? (
-            <TableCells words={tableWords.words} refresh={() => getWordsFromDb(currentPage)} />
+            tableWords.words.map((word) => (
+              <TableRecord word={word} refresh={() => getWordsFromDb(currentPage)} key={word.id} />
+            ))
           ) : (
             <TableRow>
               <TableCell>
