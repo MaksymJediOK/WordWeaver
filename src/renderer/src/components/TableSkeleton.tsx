@@ -11,4 +11,4 @@ const TableSkeleton = () => {
   )
 }
 
-export default TableSkeleton
+export { TableSkeleton }

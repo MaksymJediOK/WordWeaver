@@ -27,10 +27,11 @@ import { WordInput } from './WordInput'
 import { TranslationTable } from './TranslationTable'
 import { Toaster } from './ui/toaster'
 import { data } from '@shared/mocks'
+import { CurrentPageName } from '@shared/types'
 
 
 export const MainWindow = () => {
-  const [currentPage, setCurrentPage] = useState('manual')
+  const [currentPage, setCurrentPage] = useState(CurrentPageName.manual)
 
   return (
     <SidebarProvider>
@@ -92,8 +93,8 @@ export const MainWindow = () => {
           </div>
         </header>
         <div className="flex flex-1 flex-col gap-4 p-4 pt-0">
-          {currentPage === 'manual' && <WordInput/>}
-          {currentPage === 'table' && <TranslationTable />}
+          {currentPage === CurrentPageName.manual && <WordInput/>}
+          {currentPage === CurrentPageName.table && <TranslationTable />}
         </div>
       </SidebarInset>
       <Toaster />

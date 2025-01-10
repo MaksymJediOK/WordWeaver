@@ -2,9 +2,10 @@ import { Table, TableBody, TableHead, TableHeader, TableRow } from '@/components
 import { useEffect, useState } from 'react'
 import { TableRecord } from './TableRecord'
 import { TableCell } from './ui/table'
-import TableSkeleton from './TableSkeleton'
+import { TableSkeleton } from './TableSkeleton'
 import { PaginationBlock } from './PaginationBlock'
 import { FetchState } from '@shared/types'
+import { PerPageSelect } from './PerPageSelect'
 
 export const TranslationTable = () => {
   const [tableWords, setTableWords] = useState<FetchState>({ words: [], count: 0 })
@@ -48,7 +49,10 @@ export const TranslationTable = () => {
           )}
         </TableBody>
       </Table>
+      <div className="flex gap-4 items-center">
       <PaginationBlock activePage={currentPage} count={tableWords.count} setPage={setCurrentPage} />
+      <PerPageSelect getWords={getWordsFromDb} />
+      </div>
     </div>
   )
 }

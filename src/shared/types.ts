@@ -31,3 +31,8 @@ export type ExamplesApiResponse = {
     title: string
   }[]
 }
+
+export enum CurrentPageName {
+  manual = 'Manual',
+  table = 'Table'
+}

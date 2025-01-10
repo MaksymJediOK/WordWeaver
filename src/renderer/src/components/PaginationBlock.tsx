@@ -1,12 +1,13 @@
 import {
   Pagination,
   PaginationContent,
-  PaginationEllipsis,
   PaginationItem,
   PaginationLink,
   PaginationNext,
   PaginationPrevious
 } from './ui/pagination'
+import { Input } from './ui/input'
+import { useState } from 'react'
 
 type PaginationProps = {
   activePage: number
@@ -15,6 +16,14 @@ type PaginationProps = {
 }
 
 const PaginationBlock = ({ activePage = 1, count, setPage }: PaginationProps) => {
+  const [jumpPage, setJumpPage] = useState(1)
+
+  const jumpToPage = (page: number) => {
+    if (typeof jumpPage === 'number') {
+      setPage(page)
+    }
+  }
+
   const moveForward = () => {
     if (activePage + 1 <= count) setPage(activePage + 1)
   }
@@ -36,7 +45,12 @@ const PaginationBlock = ({ activePage = 1, count, setPage }: PaginationProps) =>
         </PaginationItem>
         <PaginationItem></PaginationItem>
         <PaginationItem>
-          <PaginationEllipsis onClick={() => setPage(count)} />
+          <Input
+            className="w-[60px]"
+            placeholder="Jump"
+            onChange={(event) => setJumpPage(parseInt(event.target.value))}
+            onKeyUp={() => jumpToPage(jumpPage)}
+          />
         </PaginationItem>
         <PaginationItem>
           <PaginationNext href="#" onClick={moveForward} />

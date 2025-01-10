@@ -1,4 +1,5 @@
-import { BookOpen, Settings2, SquareTerminal } from 'lucide-react'
+import { BookOpen, SquareTerminal } from 'lucide-react'
+import { CurrentPageName } from './types'
 
 export const data = {
   user: {
@@ -9,18 +10,13 @@ export const data = {
   navMain: [
     {
       title: 'Manual Input',
-      url: 'manual',
+      url: CurrentPageName.manual,
       icon: SquareTerminal
     },
     {
       title: 'Words Table',
-      url: 'table',
+      url: CurrentPageName.table,
       icon: BookOpen
-    },
-    {
-      title: 'Settings',
-      url: 'settings',
-      icon: Settings2
     }
   ]
 }

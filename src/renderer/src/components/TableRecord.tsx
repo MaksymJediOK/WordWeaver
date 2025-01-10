@@ -35,11 +35,11 @@ export const TableRecord = ({ word, refresh }: { word: BaseWord; refresh: () => 
     initialWord.current.translatedExample = text
   }
   return (
-    <TableRow key={word.id} className="row-cell" suppressContentEditableWarning>
+    <TableRow key={word.id} className="row-cell">
       <TableCell
         className="w-1/6"
         contentEditable
-
+        suppressContentEditableWarning
         onBlur={(event) => handleEditOriginalWord(word.id, event.currentTarget.textContent || '')}
       >
         {word.originalWord}
@@ -47,7 +47,7 @@ export const TableRecord = ({ word, refresh }: { word: BaseWord; refresh: () => 
       <TableCell
         className="w-1/6"
         contentEditable
-
+        suppressContentEditableWarning
         onBlur={(event) => handleEditTranslatedWord(word.id, event.currentTarget.textContent || '')}
       >
         {word.translatedWord}
@@ -55,7 +55,7 @@ export const TableRecord = ({ word, refresh }: { word: BaseWord; refresh: () => 
       <TableCell className="max-w-[400px]">
         <div
           contentEditable
-
+          suppressContentEditableWarning
           onBlur={(event) => handleEditExample(word.id, event.currentTarget.textContent || '')}
         >
           {word.example}
@@ -63,7 +63,7 @@ export const TableRecord = ({ word, refresh }: { word: BaseWord; refresh: () => 
         <Separator />
         <div
           contentEditable
-
+          suppressContentEditableWarning
           onBlur={(event) =>
             handleEditTranslatedExample(word.id, event.currentTarget.textContent || '')
           }
