@@ -50,8 +50,12 @@ export const TranslationTable = () => {
         </TableBody>
       </Table>
       <div className="flex gap-4 items-center">
-      <PaginationBlock activePage={currentPage} count={tableWords.count} setPage={setCurrentPage} />
-      <PerPageSelect getWords={getWordsFromDb} />
+        <PaginationBlock
+          activePage={currentPage}
+          count={tableWords.count}
+          setPage={setCurrentPage}
+        />
+        <PerPageSelect getWords={getWordsFromDb} />
       </div>
     </div>
   )

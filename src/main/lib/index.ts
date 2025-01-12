@@ -3,8 +3,9 @@ import { hasMoreThanOneWord } from '@shared/helpers'
 import { PrismaClient } from '@prisma/client'
 import { ExamplesApiResponse, PaginationProps, BaseWord } from '@shared/types'
 
-const authKey = 'key'
-const wordnikKey = 'key'
+
+const authKey = import.meta.env.MAIN_VITE_TRANSLATOR_KEY
+const wordnikKey = import.meta.env.MAIN_VITE_WORD_KEY
 
 const prisma = new PrismaClient()
 const translator = new deepl.Translator(authKey)

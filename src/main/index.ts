@@ -14,7 +14,6 @@ import {
   editTranslatedExample
 } from './lib'
 
-
 function createWindow(): void {
   // Create the browser window.
   const mainWindow = new BrowserWindow({

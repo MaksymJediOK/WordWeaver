@@ -1,3 +1,4 @@
+import React, { useState } from 'react'
 import {
   Pagination,
   PaginationContent,
@@ -7,7 +8,6 @@ import {
   PaginationPrevious
 } from './ui/pagination'
 import { Input } from './ui/input'
-import { useState } from 'react'
 
 type PaginationProps = {
   activePage: number
@@ -18,10 +18,11 @@ type PaginationProps = {
 const PaginationBlock = ({ activePage = 1, count, setPage }: PaginationProps) => {
   const [jumpPage, setJumpPage] = useState(1)
 
-  const jumpToPage = (page: number) => {
-    if (typeof jumpPage === 'number') {
-      setPage(page)
-    }
+  const jumpToPage = (event: React.KeyboardEvent<HTMLInputElement>) => {
+    if (!(typeof jumpPage === 'number')) return
+    if (jumpPage > count) return
+    if (event.key !== 'Enter') return
+    setPage(jumpPage)
   }
 
   const moveForward = () => {
@@ -49,7 +50,7 @@ const PaginationBlock = ({ activePage = 1, count, setPage }: PaginationProps) =>
             className="w-[60px]"
             placeholder="Jump"
             onChange={(event) => setJumpPage(parseInt(event.target.value))}
-            onKeyUp={() => jumpToPage(jumpPage)}
+            onKeyUp={(event) => jumpToPage(event)}
           />
         </PaginationItem>
         <PaginationItem>
