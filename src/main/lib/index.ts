@@ -3,11 +3,16 @@ import { hasMoreThanOneWord } from '@shared/helpers'
 import { PrismaClient } from '@prisma/client'
 import { ExamplesApiResponse, PaginationProps, BaseWord } from '@shared/types'
 
-
 const authKey = import.meta.env.MAIN_VITE_TRANSLATOR_KEY
 const wordnikKey = import.meta.env.MAIN_VITE_WORD_KEY
 
-const prisma = new PrismaClient()
+const prisma = new PrismaClient({
+  datasources: {
+    db: {
+      url: import.meta.env.MAIN_VITE_DATABASE_URL
+    }
+  }
+})
 const translator = new deepl.Translator(authKey)
 
 const addWordViaString = async (baseWord: string, context?: string) => {
