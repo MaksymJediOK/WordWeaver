@@ -8,6 +8,7 @@ import {
   PaginationPrevious
 } from './ui/pagination'
 import { Input } from './ui/input'
+import { ChevronsRight } from 'lucide-react'
 
 type PaginationProps = {
   activePage: number
@@ -24,7 +25,6 @@ const PaginationBlock = ({ activePage = 1, count, setPage }: PaginationProps) =>
     if (event.key !== 'Enter') return
     setPage(jumpPage)
   }
-
   const moveForward = () => {
     if (activePage + 1 <= count) setPage(activePage + 1)
   }
@@ -38,7 +38,6 @@ const PaginationBlock = ({ activePage = 1, count, setPage }: PaginationProps) =>
         <PaginationItem>
           <PaginationPrevious href="#" onClick={moveBack} />
         </PaginationItem>
-        <PaginationItem></PaginationItem>
         <PaginationItem>
           <PaginationLink href="#" isActive>
             {activePage}
@@ -55,6 +54,11 @@ const PaginationBlock = ({ activePage = 1, count, setPage }: PaginationProps) =>
         </PaginationItem>
         <PaginationItem>
           <PaginationNext href="#" onClick={moveForward} />
+        </PaginationItem>
+        <PaginationItem>
+          <div className="py-2 pr-2.5 cursor-pointer" onClick={() => setPage(count)}>
+            <ChevronsRight color="gray" />
+          </div>
         </PaginationItem>
       </PaginationContent>
     </Pagination>

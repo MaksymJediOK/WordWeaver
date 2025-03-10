@@ -61,7 +61,6 @@ const getByPage = async ({
     }),
     prisma.word.count()
   ])
-
   return { data, totalCount }
 }
 

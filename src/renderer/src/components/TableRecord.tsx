@@ -52,8 +52,9 @@ export const TableRecord = ({ word, refresh }: { word: BaseWord; refresh: () => 
       >
         {word.translatedWord}
       </TableCell>
-      <TableCell className="max-w-[400px]">
+      <TableCell className="w-[55%]">
         <div
+          className="w-full"
           contentEditable
           suppressContentEditableWarning
           onBlur={(event) => handleEditExample(word.id, event.currentTarget.textContent || '')}
@@ -62,6 +63,7 @@ export const TableRecord = ({ word, refresh }: { word: BaseWord; refresh: () => 
         </div>
         <Separator />
         <div
+          className="w-full"
           contentEditable
           suppressContentEditableWarning
           onBlur={(event) =>
@@ -71,7 +73,7 @@ export const TableRecord = ({ word, refresh }: { word: BaseWord; refresh: () => 
           {word.translatedExample}
         </div>
       </TableCell>
-      <TableCell className="max-w-[50px]">
+      <TableCell >
         <Button
           variant="outline"
           size="icon"

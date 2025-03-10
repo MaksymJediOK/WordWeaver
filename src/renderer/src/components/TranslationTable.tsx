@@ -14,6 +14,7 @@ export const TranslationTable = () => {
   const getWordsFromDb = async (page: number, size: number = 10) => {
     try {
       const { data, totalCount } = await window.api.getByPage({ page, size })
+      console.log('totalCount', totalCount)
       if (data) {
         setTableWords({ words: data, count: Math.ceil(totalCount / size) })
       }
@@ -55,7 +56,7 @@ export const TranslationTable = () => {
           count={tableWords.count}
           setPage={setCurrentPage}
         />
-        <PerPageSelect getWords={getWordsFromDb} />
+        {/*<PerPageSelect getWords={getWordsFromDb} />*/}
       </div>
     </div>
   )
