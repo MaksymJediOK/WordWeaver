@@ -2,7 +2,7 @@ import { app, shell, BrowserWindow, ipcMain, globalShortcut, clipboard } from 'e
 import { join } from 'path'
 import { electronApp, optimizer, is } from '@electron-toolkit/utils'
 import icon from '../../resources/icon.png?asset'
-import { BaseWord } from '@shared/types'
+import { BaseWord, UserConfig } from '@shared/types'
 import {
   addWordViaString,
   removeWord,
@@ -11,7 +11,9 @@ import {
   editTranslatedWord,
   editOriginalWord,
   editExample,
-  editTranslatedExample
+  editTranslatedExample,
+  getUserConf,
+  editUserConfig
 } from './lib'
 
 function createWindow(): void {
@@ -62,14 +64,6 @@ function createWindow(): void {
 
 app.whenReady().then(() => {
   electronApp.setAppUserModelId('com.electron')
-  // const icon = nativeImage.createFromPath('../../resources/icon.png?asset')
-  // tray = new Tray(icon)
-  //
-  // const contextMenu = Menu.buildFromTemplate([
-  //   { label: 'Item1', type: '' },
-  //   { label: 'Item2', type: 'radio' },
-  //
-  // ])
 
   app.on('browser-window-created', (_, window) => {
     optimizer.watchWindowShortcuts(window)
@@ -80,7 +74,7 @@ app.whenReady().then(() => {
   })
   ipcMain.handle('add-word', (_, word: string, context?: string) => addWordViaString(word, context))
   ipcMain.handle('remove-word', (_, id: number) => removeWord(id))
-  ipcMain.handle('get-by-page', (_, page: number, size: number) => getByPage({ page, size }))
+  ipcMain.handle('get-by-page', (_, page: number) => getByPage({ page }))
   ipcMain.handle('create-manually', (_, data: Omit<BaseWord, 'id'>) => createManually(data))
   ipcMain.handle('edit-word', (_, id: number, text: string) => editOriginalWord(id, text))
   ipcMain.handle('edit-translated', (_, id: number, text: string) => editTranslatedWord(id, text))
@@ -88,6 +82,8 @@ app.whenReady().then(() => {
   ipcMain.handle('edit-translated-example', (_, id: number, text: string) =>
     editTranslatedExample(id, text)
   )
+  ipcMain.handle('get-conf', (_) => getUserConf())
+  ipcMain.handle('edit-conf', (_, data: Omit<UserConfig, 'id'>) => editUserConfig(data))
 
   createWindow()
 

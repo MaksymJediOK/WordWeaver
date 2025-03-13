@@ -6,9 +6,9 @@ export type BaseWord = {
   translatedExample: string
 }
 
+//remove later
 export type PaginationProps = {
   page: number
-  size: number
 }
 
 export type FetchState = {
@@ -34,5 +34,12 @@ export type ExamplesApiResponse = {
 
 export enum CurrentPageName {
   manual = 'Manual',
-  table = 'Table'
+  table = 'Table',
+  config = 'Config'
+}
+
+export type UserConfig = {
+  wordsPerPage: number
+  fromLang: string
+  toLang: string
 }

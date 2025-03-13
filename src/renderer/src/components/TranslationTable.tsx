@@ -5,18 +5,17 @@ import { TableCell } from './ui/table'
 import { TableSkeleton } from './TableSkeleton'
 import { PaginationBlock } from './PaginationBlock'
 import { FetchState } from '@shared/types'
-import { PerPageSelect } from './PerPageSelect'
 
 export const TranslationTable = () => {
   const [tableWords, setTableWords] = useState<FetchState>({ words: [], count: 0 })
   const [currentPage, setCurrentPage] = useState(1)
 
-  const getWordsFromDb = async (page: number, size: number = 10) => {
+  const getWordsFromDb = async (page: number) => {
     try {
-      const { data, totalCount } = await window.api.getByPage({ page, size })
-      console.log('totalCount', totalCount)
-      if (data) {
-        setTableWords({ words: data, count: Math.ceil(totalCount / size) })
+      const { data, totalCount } = await window.api.getByPage({ page })
+      const conf = await window.api.getConf() //change for not retrieving
+      if (data && conf) {
+        setTableWords({ words: data, count: Math.ceil(totalCount / conf.wordsPerPage) })
       }
     } catch (error) {
       console.error(error)
@@ -56,7 +55,6 @@ export const TranslationTable = () => {
           count={tableWords.count}
           setPage={setCurrentPage}
         />
-        {/*<PerPageSelect getWords={getWordsFromDb} />*/}
       </div>
     </div>
   )

@@ -1,7 +1,8 @@
 import * as deepl from 'deepl-node'
 import { hasMoreThanOneWord } from '@shared/helpers'
 import { PrismaClient } from '@prisma/client'
-import { ExamplesApiResponse, PaginationProps, BaseWord } from '@shared/types'
+import { ExamplesApiResponse, PaginationProps, BaseWord, UserConfig } from '@shared/types'
+import { SourceLanguageCode, TargetLanguageCode } from 'deepl-node'
 
 const authKey = import.meta.env.MAIN_VITE_TRANSLATOR_KEY
 const wordnikKey = import.meta.env.MAIN_VITE_WORD_KEY
@@ -14,19 +15,36 @@ const prisma = new PrismaClient({
   }
 })
 const translator = new deepl.Translator(authKey)
+let cachedConfig: UserConfig | null = null
 
 const addWordViaString = async (baseWord: string, context?: string) => {
-  const translatedBaseWord = await translator.translateText(baseWord, 'en', 'uk', { context })
+  const config = await getUserConf()
+  let exampleSentence = '-'
+  let translatedSentence: deepl.TextResult | null = null
 
-  const exampleSentence = await findExampleUsage(baseWord)
-  const translatedSentence = await translator.translateText(exampleSentence, 'en', 'uk')
+  if (!config) throw new Error('User config not found')
+  const translatedBaseWord = await translator.translateText(
+    baseWord,
+    config.fromLang as SourceLanguageCode,
+    config.toLang as TargetLanguageCode,
+    { context }
+  )
+
+  if (config.fromLang.startsWith('en')) {
+    exampleSentence = await findExampleUsage(baseWord)
+    translatedSentence = await translator.translateText(
+      exampleSentence,
+      config.fromLang as SourceLanguageCode,
+      config.toLang as TargetLanguageCode
+    )
+  }
 
   return prisma.word.create({
     data: {
       originalWord: baseWord,
       translatedWord: translatedBaseWord.text,
       example: exampleSentence,
-      translatedExample: translatedSentence.text
+      translatedExample: translatedSentence?.text || '-'
     }
   })
 }
@@ -48,11 +66,12 @@ const findExampleUsage = async (word: string, limit = 1) => {
 }
 
 const getByPage = async ({
-  page,
-  size = 10
+  page
 }: PaginationProps): Promise<{ data: BaseWord[]; totalCount: number }> => {
-  const skip = (page - 1) * size
-  const take = size
+  const config = await getUserConf()
+  if (!config) throw new Error('User config not found')
+  const skip = (page - 1) * config.wordsPerPage
+  const take = config.wordsPerPage
 
   const [data, totalCount] = await Promise.all([
     prisma.word.findMany({
@@ -91,6 +110,7 @@ const editTranslatedWord = async (id: number, text: string) => {
     }
   })
 }
+
 const editExample = async (id: number, text: string) => {
   return prisma.word.update({
     where: {
@@ -101,6 +121,7 @@ const editExample = async (id: number, text: string) => {
     }
   })
 }
+
 const editTranslatedExample = async (id: number, text: string) => {
   return prisma.word.update({
     where: {
@@ -108,6 +129,32 @@ const editTranslatedExample = async (id: number, text: string) => {
     },
     data: {
       translatedExample: text
+    }
+  })
+}
+
+const getUserConf = async () => {
+  if (cachedConfig) return cachedConfig
+
+  const config = await prisma.userConfig.findFirst({
+    select: {
+      fromLang: true,
+      toLang: true,
+      wordsPerPage: true
+    }
+  })
+  if (config) cachedConfig = config
+
+  return config
+}
+const editUserConfig = async (conf: UserConfig) => {
+  cachedConfig = null
+  return prisma.userConfig.update({
+    where: {
+      id: 1
+    },
+    data: {
+      ...conf
     }
   })
 }
@@ -120,5 +167,7 @@ export {
   editOriginalWord,
   editTranslatedWord,
   editExample,
-  editTranslatedExample
+  editTranslatedExample,
+  getUserConf,
+  editUserConfig
 }

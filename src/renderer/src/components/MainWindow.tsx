@@ -23,6 +23,7 @@ import { TranslationTable } from './TranslationTable'
 import { Toaster } from './ui/toaster'
 import { data } from '@shared/mocks'
 import { CurrentPageName } from '@shared/types'
+import { UserConfigSelection } from './UserConfigSelection'
 
 export const MainWindow = () => {
   const [currentPage, setCurrentPage] = useState(CurrentPageName.manual)
@@ -89,6 +90,7 @@ export const MainWindow = () => {
         <div className="flex flex-1 flex-col gap-4 p-4 pt-0">
           {currentPage === CurrentPageName.manual && <WordInput />}
           {currentPage === CurrentPageName.table && <TranslationTable />}
+          {currentPage === CurrentPageName.config && <UserConfigSelection />}
         </div>
       </SidebarInset>
       <Toaster />

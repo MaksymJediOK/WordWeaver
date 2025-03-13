@@ -14,3 +14,10 @@ model Word {
   example           String
   translatedExample String
 }
+
+model UserConfigSelection {
+  id           Int    @id @default(autoincrement())
+  wordsPerPage Int    @default(20)
+  fromLang     String @default("en")
+  toLang       String @default("uk")
+}

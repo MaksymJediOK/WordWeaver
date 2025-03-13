@@ -10,17 +10,22 @@ import {
 import { UserConfig } from '@shared/types'
 import { useEffect, useRef, useState } from 'react'
 import { languageSelectOptions } from '@shared/helpers'
-import { availableWordsPerPage } from '../../../shared/mocks'
+import { availableWordsPerPage } from '@shared/mocks'
 import { Button } from './ui/button'
+import { Loader2 } from 'lucide-react'
+import { useToast } from './hooks/use-toast'
 
 export const UserConfigSelection = () => {
   const [conf, setConf] = useState<UserConfig>({
     fromLang: '',
     toLang: '',
-    wordsPerPage: 20,
-    id: 1
+    wordsPerPage: 20
   })
+  const { toast } = useToast()
+
   const initialConf = useRef<UserConfig | null>(null)
+  const [isLoading, setIsLoading] = useState(false)
+
   const updateConfig = (key: keyof UserConfig, value: string | number) => {
     setConf((prev) => ({
       ...prev,
@@ -28,11 +33,25 @@ export const UserConfigSelection = () => {
     }))
   }
 
+  const updateConf = async () => {
+    try {
+      setIsLoading(true)
+      await window.api.editUserConf(conf)
+    } catch (e) {
+      console.error(e)
+      setIsLoading(false)
+    } finally {
+      setIsLoading(false)
+      toast({
+        description: 'Config successfully updated'
+      })
+    }
+  }
+
   useEffect(() => {
-    ;(async () => {
+    (async () => {
       try {
         const data = await window.api.getConf()
-        console.log(data)
         if (data) {
           setConf(data)
           initialConf.current = data
@@ -62,7 +81,7 @@ export const UserConfigSelection = () => {
         </SelectContent>
       </Select>
       <p className="font-semibold capitalize">language into which the translation will be made</p>
-      <Select onValueChange={(value) => updateConfig('toLang', value)} value={conf?.fromLang}>
+      <Select onValueChange={(value) => updateConfig('toLang', value)} value={conf?.toLang}>
         <SelectTrigger className="w-[80%]">
           <SelectValue placeholder="Select a language you want to translate to" />
         </SelectTrigger>
@@ -96,7 +115,14 @@ export const UserConfigSelection = () => {
           </SelectGroup>
         </SelectContent>
       </Select>
-      <Button className='w-2/12'>Save</Button>
+      <Button
+        disabled={JSON.stringify(conf) === JSON.stringify(initialConf.current) || isLoading}
+        className="w-2/12"
+        onClick={updateConf}
+      >
+        {isLoading && <Loader2 className="animate-spin" />}
+        Save
+      </Button>
     </div>
   )
 }

@@ -73,7 +73,7 @@ export const TableRecord = ({ word, refresh }: { word: BaseWord; refresh: () => 
           {word.translatedExample}
         </div>
       </TableCell>
-      <TableCell >
+      <TableCell>
         <Button
           variant="outline"
           size="icon"
