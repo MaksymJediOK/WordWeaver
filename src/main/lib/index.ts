@@ -136,7 +136,7 @@ const editTranslatedExample = async (id: number, text: string) => {
 const getUserConf = async () => {
   if (cachedConfig) return cachedConfig
 
-  const config = await prisma.userConfig.findFirst({
+  const config = await prisma.userConfigSelection.findFirst({
     select: {
       fromLang: true,
       toLang: true,
@@ -149,7 +149,7 @@ const getUserConf = async () => {
 }
 const editUserConfig = async (conf: UserConfig) => {
   cachedConfig = null
-  return prisma.userConfig.update({
+  return prisma.userConfigSelection.update({
     where: {
       id: 1
     },

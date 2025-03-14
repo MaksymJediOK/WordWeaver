@@ -3,10 +3,10 @@ import { PrismaClient } from '@prisma/client'
 const prisma = new PrismaClient()
 
 async function main() {
-  const existingConfig = await prisma.userConfig.findFirst()
+  const existingConfig = await prisma.userConfigSelection.findFirst()
 
   if (!existingConfig) {
-    await prisma.userConfig.create({
+    await prisma.userConfigSelection.create({
       data: {
         wordsPerPage: 20,
         fromLang: 'en',
